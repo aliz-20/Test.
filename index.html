@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EcoLore | IT & Trading</title>
+  <link rel="icon" type="image/x-icon" href="images/logo-ecolor.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    :root {
+      --teal: #12bdb6;
+      --teal-bright: #22d6cf;
+      --teal-glow: rgba(18, 189, 182, 0.35);
+      --navy: #08284a;
+      --navy-deep: #061f38;
+      --navy-mid: #10243f;
+      --text-muted: #526a7d;
+      --bg: #f6f9fb;
+    }
+
+    body {
+      font-family: 'DM Sans', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--navy-mid);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(10, 37, 64, 0.07);
+      transition: box-shadow 0.3s;
+    }
+
+    header.scrolled {
+      box-shadow: 0 4px 30px rgba(10, 37, 64, 0.1);
+    }
+
+    nav {
+      max-width: 1200px;
+      margin: auto;
+      padding: 16px 28px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: #08284a;
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.45rem;
+      letter-spacing: -0.5px;
+    }
+
+    .brand img {
+      width: 42px;
+      height: 42px;
+      object-fit: contain;
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    }
+
+    .brand:hover img { transform: rotate(-8deg) scale(1.1); }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 26px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 26px;
+      list-style: none;
+      position: relative;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #173b5f;
+      font-weight: 600;
+      font-size: 0.95rem;
+      position: relative;
+      padding-bottom: 4px;
+      transition: color 0.25s;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--teal);
+      border-radius: 2px;
+      transition: width 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    }
+
+    .nav-links a:hover { color: var(--teal); }
+    .nav-links a:hover::after { width: 100%; }
+
+    /* ─── LANGUAGE SWITCHER ─── */
+    .lang-switcher {
+      display: flex;
+      align-items: center;
+      gap: 2px;
+      background: rgba(18, 189, 182, 0.08);
+      border: 1px solid rgba(18, 189, 182, 0.25);
+      border-radius: 999px;
+      padding: 3px 5px;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .lang-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      letter-spacing: 0.5px;
+      color: var(--text-muted);
+      padding: 4px 9px;
+      border-radius: 999px;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    .lang-btn.active {
+      background: var(--teal);
+      color: white;
+    }
+
+    .lang-btn:hover:not(.active) {
+      color: var(--teal);
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+      color: white;
+      padding: 120px 28px 70px;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(4, 22, 42, 0.92), rgba(4, 22, 42, 0.55), rgba(4, 22, 42, 0.18)),
+        url("images/ecoloreimage.png") center/cover no-repeat;
+      animation: bgFade 7s ease-in-out infinite alternate;
+      z-index: -2;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% 50%, rgba(22, 190, 185, 0.28), transparent 35%);
+      z-index: -1;
+    }
+
+    @keyframes bgFade {
+      from { opacity: 0.78; transform: scale(1); }
+      to   { opacity: 1;    transform: scale(1.04); }
+    }
+
+    /* Particle canvas */
+    #particles {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      max-width: 1200px;
+      margin: auto;
+      width: 100%;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-text { max-width: 670px; }
+
+    .tag {
+      display: inline-block;
+      margin-bottom: 18px;
+      padding: 8px 15px;
+      border: 1px solid rgba(255,255,255,0.25);
+      background: rgba(255,255,255,0.08);
+      border-radius: 999px;
+      color: #9ff8f2;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      animation: tagPop 0.7s cubic-bezier(0.34,1.56,0.64,1) 0.2s both;
+    }
+
+    @keyframes tagPop {
+      from { opacity: 0; transform: translateY(12px) scale(0.9); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2.6rem, 6vw, 5.8rem);
+      line-height: 0.98;
+      letter-spacing: -3px;
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+
+    .hero-title-line {
+      display: block;
+      animation: slideUp 0.8s cubic-bezier(0.22,1,0.36,1) both;
+    }
+
+    .hero-title-line:nth-child(1) { animation-delay: 0.4s; }
+    .hero-title-line:nth-child(2) { animation-delay: 0.6s; }
+    .hero-title-line:nth-child(3) { animation-delay: 0.75s; }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(60px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero p {
+      font-size: 1.15rem;
+      max-width: 560px;
+      color: #d9e8f2;
+      margin-bottom: 34px;
+      animation: fadeIn 0.9s ease 0.9s both;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      animation: fadeIn 0.9s ease 1.1s both;
+    }
+
+    .scroll-indicator {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      opacity: 0.6;
+      animation: bounce 2s ease-in-out infinite;
+      z-index: 1;
+    }
+
+    .scroll-indicator span {
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: white;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 48px;
+      background: linear-gradient(to bottom, white, transparent);
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ─── BUTTONS ─── */
+    .btn {
+      display: inline-block;
+      padding: 14px 24px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      font-family: 'DM Sans', sans-serif;
+      transition: transform 0.25s, box-shadow 0.25s, background 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(255,255,255,0.15);
+      opacity: 0;
+      transition: opacity 0.2s;
+    }
+
+    .btn:hover::after { opacity: 1; }
+
+    .btn-primary {
+      background: var(--teal);
+      color: #062640;
+      box-shadow: 0 4px 20px rgba(18,189,182,0.4);
+    }
+
+    .btn-primary:hover {
+      background: var(--teal-bright);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(18,189,182,0.5);
+    }
+
+    .btn-secondary {
+      border: 1px solid rgba(255,255,255,0.35);
+      color: white;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255,255,255,0.18);
+      transform: translateY(-3px);
+    }
+
+    /* ─── SECTIONS ─── */
+    section { padding: 95px 28px; }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .section-title {
+      max-width: 680px;
+      margin-bottom: 45px;
+    }
+
+    .section-title span {
+      color: #12aaa5;
+      font-weight: 800;
+      text-transform: uppercase;
+      font-size: 0.82rem;
+      letter-spacing: 1.5px;
+    }
+
+    .section-title h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.1;
+      margin: 10px 0 14px;
+      color: #08284a;
+      letter-spacing: -1.5px;
+    }
+
+    .section-title p { color: #526a7d; font-size: 1.05rem; }
+
+    /* ─── SCROLL REVEAL ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-50px);
+      transition: opacity 0.8s cubic-bezier(0.22,1,0.36,1), transform 0.8s cubic-bezier(0.22,1,0.36,1);
+    }
+
+    .reveal-left.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* ─── ABOUT ─── */
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.1fr;
+      gap: 55px;
+      align-items: center;
+    }
+
+    .about-logo-box {
+      background: white;
+      padding: 34px;
+      border-radius: 22px;
+      box-shadow: 0 25px 70px rgba(10, 37, 64, 0.12);
+      transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s;
+    }
+
+    .about-logo-box:hover {
+      transform: translateY(-8px) rotate(-1deg);
+      box-shadow: 0 40px 90px rgba(10, 37, 64, 0.18);
+    }
+
+    .about-logo-box img { width: 100%; display: block; }
+
+    .about-text p {
+      color: #526a7d;
+      margin-bottom: 18px;
+      font-size: 1.05rem;
+    }
+
+    /* ─── SERVICES ─── */
+    .services { background: white; }
+
+    .service-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .service-card {
+      padding: 34px 30px;
+      border-radius: 20px;
+      background: #f7fbfd;
+      border: 1px solid #e2edf3;
+      transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s, background 0.3s;
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+      transform-style: preserve-3d;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--teal), var(--teal-bright));
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+    }
+
+    .service-card:hover::before { transform: scaleX(1); }
+
+    .service-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 24px 60px rgba(10, 37, 64, 0.12);
+      background: #ffffff;
+    }
+
+    .service-card h3 {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.25rem;
+      color: #08284a;
+      margin-bottom: 12px;
+    }
+
+    .service-card p { color: #5b7081; }
+
+    .accent {
+      color: var(--teal);
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.8rem;
+      margin-bottom: 16px;
+      display: inline-block;
+      transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+    }
+
+    .service-card:hover .accent {
+      transform: scale(1.15) rotate(-3deg);
+    }
+
+    /* ─── WHY ─── */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .why-card {
+      background: white;
+      padding: 28px 25px;
+      border-radius: 18px;
+      border: 1px solid #e4edf2;
+      transition: transform 0.35s cubic-bezier(0.22,1,0.36,1), box-shadow 0.35s, border-color 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .why-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--teal), #9ff8f2);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s cubic-bezier(0.22,1,0.36,1);
+    }
+
+    .why-card:hover::after { transform: scaleX(1); }
+
+    .why-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 18px 50px rgba(10, 37, 64, 0.1);
+      border-color: rgba(18,189,182,0.3);
+    }
+
+    .why-card strong {
+      display: block;
+      color: #08284a;
+      margin-bottom: 8px;
+      font-size: 1.08rem;
+      font-family: 'Syne', sans-serif;
+    }
+
+    .why-card p { color: #607487; font-size: 0.95rem; }
+
+    .why-icon {
+      font-size: 1.6rem;
+      margin-bottom: 14px;
+      display: block;
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    }
+
+    .why-card:hover .why-icon { transform: scale(1.2) rotate(-5deg); }
+
+    /* ─── COUNTER NUMBERS ─── */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      background: white;
+      border-top: 1px solid #e4edf2;
+      border-bottom: 1px solid #e4edf2;
+      margin-top: 60px;
+      overflow: hidden;
+      border-radius: 18px;
+      box-shadow: 0 10px 40px rgba(10,37,64,0.07);
+    }
+
+    .stat-item {
+      padding: 36px 30px;
+      text-align: center;
+      border-right: 1px solid #e4edf2;
+      transition: background 0.3s;
+    }
+
+    .stat-item:last-child { border-right: none; }
+
+    .stat-item:hover { background: #f7fbfd; }
+
+    .stat-number {
+      font-family: 'Syne', sans-serif;
+      font-size: 3rem;
+      font-weight: 800;
+      color: var(--teal);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .stat-label {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    /* ─── CONTACT ─── */
+    .contact {
+      background: var(--navy-deep);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(18,189,182,0.12), transparent 60%);
+      animation: floatOrb 8s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+
+    @keyframes floatOrb {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(-40px, 40px) scale(1.15); }
+    }
+
+    .contact .section-title h2,
+    .contact .section-title p { color: white; }
+
+    .contact-box {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 35px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 24px;
+      padding: 40px;
+      backdrop-filter: blur(10px);
+      position: relative;
+      z-index: 1;
+      transition: border-color 0.3s;
+    }
+
+    .contact-box:hover {
+      border-color: rgba(18,189,182,0.3);
+    }
+
+    .contact-info p { margin-bottom: 14px; color: #d9e8f2; }
+    .contact-info strong { color: #70f0e9; }
+
+    .contact-info-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      transition: transform 0.3s;
+    }
+
+    .contact-info-item:hover { transform: translateX(6px); }
+    .contact-info-item:last-of-type { border-bottom: none; }
+
+    .contact-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+      margin-top: 7px;
+      flex-shrink: 0;
+      animation: pulse-dot 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(18,189,182,0.4); }
+      50%       { box-shadow: 0 0 0 6px rgba(18,189,182,0); }
+    }
+
+    form { display: grid; gap: 14px; }
+
+    input, textarea {
+      width: 100%;
+      padding: 14px 15px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      color: white;
+      outline: none;
+      font: inherit;
+      transition: border-color 0.25s, background 0.25s, box-shadow 0.25s;
+    }
+
+    input:focus, textarea:focus {
+      border-color: rgba(18,189,182,0.6);
+      background: rgba(255,255,255,0.1);
+      box-shadow: 0 0 0 3px rgba(18,189,182,0.12);
+    }
+
+    input::placeholder, textarea::placeholder { color: #aac0cf; }
+
+    textarea { min-height: 130px; resize: vertical; }
+
+    button { border: 0; cursor: pointer; font: inherit; }
+
+    /* ─── FOOTER ─── */
+    footer {
+      padding: 28px;
+      text-align: center;
+      color: #6b7c8a;
+      background: var(--bg);
+      font-size: 0.9rem;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .about-grid, .contact-box { grid-template-columns: 1fr; }
+      .service-grid { grid-template-columns: 1fr; }
+      .why-grid { grid-template-columns: repeat(2, 1fr); }
+      .stats-bar { grid-template-columns: 1fr; }
+      .stat-item { border-right: none; border-bottom: 1px solid #e4edf2; }
+      .stat-item:last-child { border-bottom: none; }
+    }
+
+    @media (max-width: 560px) {
+      nav { padding: 14px 18px; }
+      .brand { font-size: 1.2rem; }
+      .hero { padding-inline: 20px; }
+      h1 { letter-spacing: -1.5px; }
+      .why-grid { grid-template-columns: 1fr; }
+      .contact-box { padding: 24px; }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header id="mainHeader">
+    <nav>
+      <a href="#home" class="brand">
+        <img src="images/logo-ecolor.jpg" alt="EcoLore logo">
+        <span>EcoLore</span>
+      </a>
+
+      <div class="nav-right">
+        <ul class="nav-links">
+          <li><a href="#home"     data-en="Home"     data-sk="Domov">Home</a></li>
+          <li><a href="#about"    data-en="About"    data-sk="O nás">About</a></li>
+          <li><a href="#services" data-en="Services" data-sk="Služby">Services</a></li>
+          <li><a href="#why"      data-en="Why us"   data-sk="Prečo my">Why us</a></li>
+          <li><a href="#contact"  data-en="Contact"  data-sk="Kontakt">Contact</a></li>
+        </ul>
+
+        <div class="lang-switcher" aria-label="Language switcher">
+          <button class="lang-btn active" data-lang="en">EN</button>
+          <button class="lang-btn"        data-lang="sk">SK</button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+
+    <section class="hero" id="home">
+      <canvas id="particles"></canvas>
+      <div class="hero-content">
+        <div class="hero-text">
+          <span class="tag" data-en="IT & Trading Solutions" data-sk="IT & Obchodné riešenia">IT & Trading Solutions</span>
+          <h1>
+            <span class="hero-title-line" data-en="Smart business," data-sk="Inteligentný biznis,">Smart business,</span>
+            <span class="hero-title-line" data-en="modern"          data-sk="moderné">modern</span>
+            <span class="hero-title-line" data-en="technology."     data-sk="technológie.">technology.</span>
+          </h1>
+          <p data-en="EcoLore connects reliable trading solutions with modern IT services, helping companies work faster, communicate better, and grow with confidence."
+             data-sk="EcoLore spája spoľahlivé obchodné riešenia s modernými IT službami, pomáha firmám pracovať rýchlejšie, lepšie komunikovať a rásť s istotou.">
+            EcoLore connects reliable trading solutions with modern IT services,
+            helping companies work faster, communicate better, and grow with confidence.
+          </p>
+
+          <div class="hero-buttons">
+            <a href="#services" class="btn btn-primary"   data-en="Explore services" data-sk="Naše služby">Explore services</a>
+            <a href="#contact"  class="btn btn-secondary" data-en="Contact us"       data-sk="Kontaktujte nás">Contact us</a>
+          </div>
+        </div>
+      </div>
+      <div class="scroll-indicator">
+        <span data-en="Scroll" data-sk="Rolovať">Scroll</span>
+        <div class="scroll-line"></div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container about-grid">
+        <div class="about-logo-box reveal-left">
+          <img src="images/fulllogo.jpg" alt="EcoLore full logo">
+        </div>
+
+        <div class="about-text reveal">
+          <div class="section-title">
+            <span data-en="About EcoLore" data-sk="O EcoLore">About EcoLore</span>
+            <h2 data-en="Reliable support for modern companies." data-sk="Spoľahlivá podpora pre moderné firmy.">Reliable support for modern companies.</h2>
+            <p data-en="We focus on practical, clear and professional solutions for businesses that need both technology and trading-related support."
+               data-sk="Zameriavame sa na praktické, jasné a profesionálne riešenia pre firmy, ktoré potrebujú podporu v oblasti technológií aj obchodu.">
+              We focus on practical, clear and professional solutions for businesses
+              that need both technology and trading-related support.
+            </p>
+          </div>
+
+          <p data-en="EcoLore IT & Trading s.r.o. works with a clean, direct and business-focused approach. Our goal is to make processes easier, improve digital presence, and support international business communication."
+             data-sk="EcoLore IT & Trading s.r.o. pracuje čisto, priamo a s dôrazom na obchodné výsledky. Naším cieľom je zjednodušiť procesy, zlepšiť digitálnu prítomnosť a podporiť medzinárodnú obchodnú komunikáciu.">
+            EcoLore IT & Trading s.r.o. works with a clean, direct and business-focused
+            approach. Our goal is to make processes easier, improve digital presence,
+            and support international business communication.
+          </p>
+
+          <p data-en="Whether it is IT support, digital systems, business cooperation or trading solutions, we believe in clarity, responsibility and long-term partnership."
+             data-sk="Či už ide o IT podporu, digitálne systémy, obchodnú spoluprácu alebo obchodné riešenia, veríme v jasnosť, zodpovednosť a dlhodobé partnerstvo.">
+            Whether it is IT support, digital systems, business cooperation or trading
+            solutions, we believe in clarity, responsibility and long-term partnership.
+          </p>
+        </div>
+      </div>
+
+      <div class="container stats-bar reveal" style="margin-top:60px;">
+        <div class="stat-item">
+          <div class="stat-number" data-count="100">0</div>
+          <div class="stat-label" data-en="Projects delivered" data-sk="Dokončených projektov">Projects delivered</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="15">0</div>
+          <div class="stat-label" data-en="Countries served" data-sk="Obsluhovaných krajín">Countries served</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-number" data-count="98">0</div>
+          <div class="stat-label" data-en="% client satisfaction" data-sk="% spokojnosť klientov">% client satisfaction</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="services" id="services">
+      <div class="container">
+        <div class="section-title reveal">
+          <span data-en="Services" data-sk="Služby">Services</span>
+          <h2 data-en="What we can help with" data-sk="S čím vám vieme pomôcť">What we can help with</h2>
+          <p data-en="Simple, useful and professional services designed for companies that want to move forward without unnecessary complications."
+             data-sk="Jednoduché, užitočné a profesionálne služby navrhnuté pre firmy, ktoré chcú napredovať bez zbytočných komplikácií.">
+            Simple, useful and professional services designed for companies that want
+            to move forward without unnecessary complications.
+          </p>
+        </div>
+
+        <div class="service-grid">
+          <div class="service-card reveal" style="transition-delay:0s">
+            <div class="accent">01</div>
+            <h3 data-en="IT Solutions" data-sk="IT riešenia">IT Solutions</h3>
+            <p data-en="Digital tools, technical support, website-related solutions and modern systems for everyday business needs."
+               data-sk="Digitálne nástroje, technická podpora, riešenia pre webové stránky a moderné systémy pre každodenné podnikové potreby.">
+              Digital tools, technical support, website-related solutions and modern
+              systems for everyday business needs.
+            </p>
+          </div>
+
+          <div class="service-card reveal" style="transition-delay:0.12s">
+            <div class="accent">02</div>
+            <h3 data-en="Trading Support" data-sk="Obchodná podpora">Trading Support</h3>
+            <p data-en="Support for business cooperation, supplier communication, international trade processes and practical commercial tasks."
+               data-sk="Podpora obchodnej spolupráce, komunikácie s dodávateľmi, medzinárodných obchodných procesov a praktických komerčných úloh.">
+              Support for business cooperation, supplier communication, international
+              trade processes and practical commercial tasks.
+            </p>
+          </div>
+
+          <div class="service-card reveal" style="transition-delay:0.24s">
+            <div class="accent">03</div>
+            <h3 data-en="Business Consulting" data-sk="Obchodné poradenstvo">Business Consulting</h3>
+            <p data-en="Clear guidance, structured planning and practical help for companies looking for efficient and realistic solutions."
+               data-sk="Jasné usmernenie, štruktúrované plánovanie a praktická pomoc pre firmy hľadajúce efektívne a realistické riešenia.">
+              Clear guidance, structured planning and practical help for companies
+              looking for efficient and realistic solutions.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="why">
+      <div class="container">
+        <div class="section-title reveal">
+          <span data-en="Why choose us" data-sk="Prečo si vybrať nás">Why choose us</span>
+          <h2 data-en="Built on clarity and trust" data-sk="Postavené na jasnosti a dôvere">Built on clarity and trust</h2>
+          <p data-en="We keep things understandable, professional and focused on real business value."
+             data-sk="Udržiavame veci zrozumiteľné, profesionálne a zamerané na skutočnú obchodnú hodnotu.">
+            We keep things understandable, professional and focused on real business value.
+          </p>
+        </div>
+
+        <div class="why-grid">
+          <div class="why-card reveal" style="transition-delay:0s">
+            <span class="why-icon">🎯</span>
+            <strong data-en="Professional approach" data-sk="Profesionálny prístup">Professional approach</strong>
+            <p data-en="Clear communication and reliable business support." data-sk="Jasná komunikácia a spoľahlivá obchodná podpora.">Clear communication and reliable business support.</p>
+          </div>
+
+          <div class="why-card reveal" style="transition-delay:0.1s">
+            <span class="why-icon">💡</span>
+            <strong data-en="Modern mindset" data-sk="Moderné myslenie">Modern mindset</strong>
+            <p data-en="Technology-focused thinking for today's companies." data-sk="Technologicky zamerané myslenie pre dnešné firmy.">Technology-focused thinking for today's companies.</p>
+          </div>
+
+          <div class="why-card reveal" style="transition-delay:0.2s">
+            <span class="why-icon">🌍</span>
+            <strong data-en="International view" data-sk="Medzinárodný pohľad">International view</strong>
+            <p data-en="Support for cross-border cooperation and trading needs." data-sk="Podpora cezhraničnej spolupráce a obchodných potrieb.">Support for cross-border cooperation and trading needs.</p>
+          </div>
+
+          <div class="why-card reveal" style="transition-delay:0.3s">
+            <span class="why-icon">⚡</span>
+            <strong data-en="Practical solutions" data-sk="Praktické riešenia">Practical solutions</strong>
+            <p data-en="No overcomplication — just useful and effective work." data-sk="Bez zbytočnej zložitosti — len užitočná a efektívna práca.">No overcomplication — just useful and effective work.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact" id="contact">
+      <div class="container">
+        <div class="section-title reveal">
+          <span data-en="Contact" data-sk="Kontakt">Contact</span>
+          <h2 data-en="Let's work together" data-sk="Poďme spolupracovať">Let's work together</h2>
+          <p data-en="Contact EcoLore for IT, trading or business-related cooperation."
+             data-sk="Kontaktujte EcoLore pre IT, obchodnú alebo podnikateľskú spoluprácu.">
+            Contact EcoLore for IT, trading or business-related cooperation.
+          </p>
+        </div>
+
+        <div class="contact-box reveal">
+          <div class="contact-info">
+            <div class="contact-info-item">
+              <div class="contact-dot"></div>
+              <p>
+                <strong data-en="Business Name:" data-sk="Obchodné meno:">Business Name:</strong>
+                EcoLore IT &amp; Trading s. r. o.
+              </p>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-dot"></div>
+              <p>
+                <strong data-en="Registered Office:" data-sk="Sídlo spoločnosti:">Registered Office:</strong>
+                Tomašikova 1973/32, 831 04 Bratislava – Ružinov, Slovakia
+              </p>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-dot"></div>
+              <p>
+                <strong data-en="Company Registration:" data-sk="Registrácia:">Company Registration:</strong>
+                <span data-en="Registered in the Commercial Register of the District Court Banská Bystrica"
+                      data-sk="Zapísaná v Obchodnom registri Okresného súdu Banská Bystrica">
+                  Registered in the Commercial Register of the District Court Banská Bystrica
+                </span>
+              </p>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-dot"></div>
+              <p>
+                <strong data-en="Company ID (IČO):" data-sk="IČO:">Company ID (IČO):</strong>
+                56 174 667
+              </p>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-dot"></div>
+              <p>
+                <strong data-en="Managing Director:" data-sk="Konateľ:">Managing Director:</strong>
+                Ildikó Kertészné Tőzsér
+              </p>
+            </div>
+            <div class="contact-info-item">
+              <div class="contact-dot"></div>
+              <p>
+                <strong data-en="Email:" data-sk="E-mail:">Email:</strong>
+                <a href="mailto:EcoLore_ITrade@proton.me"
+                   style="color:#70f0e9; text-decoration:none; transition:opacity 0.2s;"
+                   onmouseover="this.style.opacity='0.75'" onmouseout="this.style.opacity='1'">
+                  EcoLore_ITrade@proton.me
+                </a>
+              </p>
+            </div>
+          </div>
+
+          <form id="contactForm">
+            <input type="text" name="user_name" required
+                  data-placeholder-en="Your name"
+                  data-placeholder-sk="Vaše meno"
+                  placeholder="Your name">
+
+            <input type="email" name="user_email" required
+                  data-placeholder-en="Your email"
+                  data-placeholder-sk="Váš e-mail"
+                  placeholder="Your email">
+
+            <textarea name="message" required
+                      data-placeholder-en="Your message"
+                      data-placeholder-sk="Vaša správa"
+                      placeholder="Your message"></textarea>
+
+            <button class="btn btn-primary" type="submit"
+                    data-en="Send message"
+                    data-sk="Odoslať správu">
+              Send message
+            </button>
+
+            <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <span data-en="© 2026 EcoLore IT & Trading s.r.o. All rights reserved."
+          data-sk="© 2026 EcoLore IT & Trading s.r.o. Všetky práva vyhradené.">
+      © 2026 EcoLore IT & Trading s.r.o. All rights reserved.
+    </span>
+    &nbsp;·&nbsp;
+    <button id="privacyTrigger" onclick="document.getElementById('privacyModal').classList.add('open')"
+            data-en="Privacy Policy" data-sk="Ochrana osobných údajov"
+            style="background:none;border:none;cursor:pointer;color:#12bdb6;font:inherit;font-size:0.9rem;padding:0;text-decoration:underline;text-underline-offset:3px;">
+      Privacy Policy
+    </button>
+  </footer>
+
+  <!-- ─── PRIVACY POLICY MODAL ─── -->
+  <div id="privacyModal" style="
+    display:none;position:fixed;inset:0;z-index:2000;
+    background:rgba(6,31,56,0.72);backdrop-filter:blur(6px);
+    align-items:center;justify-content:center;padding:24px;">
+
+    <div style="
+      background:#fff;border-radius:24px;max-width:620px;width:100%;
+      max-height:88vh;overflow-y:auto;position:relative;
+      box-shadow:0 32px 80px rgba(6,31,56,0.28);padding:44px 40px 36px;">
+
+      <!-- Close button -->
+      <button onclick="document.getElementById('privacyModal').classList.remove('open')"
+              aria-label="Close"
+              style="position:absolute;top:18px;right:20px;background:none;border:none;
+                     cursor:pointer;font-size:1.4rem;color:#526a7d;line-height:1;padding:4px;">✕</button>
+
+      <!-- Title -->
+      <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px;">
+        <div style="width:4px;height:36px;border-radius:4px;background:linear-gradient(to bottom,#12bdb6,#9ff8f2);flex-shrink:0;"></div>
+        <h2 data-en="Privacy Policy" data-sk="Ochrana osobných údajov"
+            style="font-family:'Syne',sans-serif;font-size:1.7rem;color:#08284a;letter-spacing:-1px;margin:0;">
+          Privacy Policy
+        </h2>
+      </div>
+
+      <!-- Intro -->
+      <p data-en="EcoLore IT &amp; Trading s. r. o. respects your privacy and is committed to protecting your personal data."
+         data-sk="EcoLore IT &amp; Trading s. r. o. rešpektuje vaše súkromie a zaväzuje sa chrániť vaše osobné údaje."
+         style="color:#526a7d;margin-bottom:28px;font-size:1rem;line-height:1.65;">
+        EcoLore IT &amp; Trading s. r. o. respects your privacy and is committed to protecting your personal data.
+      </p>
+
+      <!-- Block: What data we collect -->
+      <div style="margin-bottom:24px;">
+        <h3 data-en="What data we collect" data-sk="Aké údaje zbierame"
+            style="font-family:'Syne',sans-serif;font-size:1.05rem;color:#08284a;margin-bottom:12px;">
+          What data we collect
+        </h3>
+        <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;">
+          <li style="display:flex;align-items:center;gap:10px;color:#526a7d;">
+            <span style="width:8px;height:8px;border-radius:50%;background:#12bdb6;flex-shrink:0;"></span>
+            <span data-en="Name" data-sk="Meno">Name</span>
+          </li>
+          <li style="display:flex;align-items:center;gap:10px;color:#526a7d;">
+            <span style="width:8px;height:8px;border-radius:50%;background:#12bdb6;flex-shrink:0;"></span>
+            <span data-en="Email address" data-sk="E-mailová adresa">Email address</span>
+          </li>
+          <li style="display:flex;align-items:center;gap:10px;color:#526a7d;">
+            <span style="width:8px;height:8px;border-radius:50%;background:#12bdb6;flex-shrink:0;"></span>
+            <span data-en="Message content" data-sk="Obsah správy">Message content</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Block: How we use your data -->
+      <div style="margin-bottom:24px;">
+        <h3 data-en="How we use your data" data-sk="Ako používame vaše údaje"
+            style="font-family:'Syne',sans-serif;font-size:1.05rem;color:#08284a;margin-bottom:12px;">
+          How we use your data
+        </h3>
+        <ul style="list-style:none;padding:0;display:flex;flex-direction:column;gap:8px;">
+          <li style="display:flex;align-items:center;gap:10px;color:#526a7d;">
+            <span style="width:8px;height:8px;border-radius:50%;background:#12bdb6;flex-shrink:0;"></span>
+            <span data-en="To respond to inquiries" data-sk="Na zodpovedanie dopytov">To respond to inquiries</span>
+          </li>
+          <li style="display:flex;align-items:center;gap:10px;color:#526a7d;">
+            <span style="width:8px;height:8px;border-radius:50%;background:#12bdb6;flex-shrink:0;"></span>
+            <span data-en="To communicate with potential clients" data-sk="Na komunikáciu s potenciálnymi klientmi">To communicate with potential clients</span>
+          </li>
+          <li style="display:flex;align-items:center;gap:10px;color:#526a7d;">
+            <span style="width:8px;height:8px;border-radius:50%;background:#12bdb6;flex-shrink:0;"></span>
+            <span data-en="To improve our services" data-sk="Na zlepšovanie našich služieb">To improve our services</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Block: Data protection -->
+      <div style="background:#f6f9fb;border-radius:14px;padding:20px 22px;margin-bottom:24px;border:1px solid #e2edf3;">
+        <h3 data-en="Data protection" data-sk="Ochrana dát"
+            style="font-family:'Syne',sans-serif;font-size:1.05rem;color:#08284a;margin-bottom:8px;">
+          Data protection
+        </h3>
+        <p data-en="Your data is stored securely and is not shared with third parties without your consent."
+           data-sk="Vaše údaje sú bezpečne uložené a nie sú zdieľané s tretími stranami bez vášho súhlasu."
+           style="color:#526a7d;margin:0;font-size:0.97rem;line-height:1.6;">
+          Your data is stored securely and is not shared with third parties without your consent.
+        </p>
+      </div>
+
+      <!-- Block: Your rights -->
+      <div style="background:#f6f9fb;border-radius:14px;padding:20px 22px;border:1px solid #e2edf3;">
+        <h3 data-en="Your rights" data-sk="Vaše práva"
+            style="font-family:'Syne',sans-serif;font-size:1.05rem;color:#08284a;margin-bottom:8px;">
+          Your rights
+        </h3>
+        <p data-en="You have the right to request access, correction, or deletion of your personal data at any time."
+           data-sk="Máte právo kedykoľvek požiadať o prístup, opravu alebo vymazanie svojich osobných údajov."
+           style="color:#526a7d;margin:0;font-size:0.97rem;line-height:1.6;">
+          You have the right to request access, correction, or deletion of your personal data at any time.
+        </p>
+      </div>
+
+    </div>
+  </div>
+
+  <style>
+    #privacyModal { display: none; }
+    #privacyModal.open { display: flex; }
+  </style>
+
+  <script>
+
+    /* ─── PRIVACY MODAL ─── */
+    const privacyModal = document.getElementById('privacyModal');
+    privacyModal.addEventListener('click', (e) => {
+      if (e.target === privacyModal) privacyModal.classList.remove('open');
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') privacyModal.classList.remove('open');
+    });
+
+    /* ─── LANGUAGE SWITCHER ─── */
+    const langBtns = document.querySelectorAll('.lang-btn');
+    let currentLang = 'en';
+
+    function applyLanguage(lang) {
+      currentLang = lang;
+
+      // Switch all data-en / data-sk text nodes
+      document.querySelectorAll('[data-en]').forEach(el => {
+        el.textContent = el.getAttribute('data-' + lang);
+      });
+
+      // Switch placeholders (inputs & textarea)
+      document.querySelectorAll('[data-placeholder-en]').forEach(el => {
+        el.placeholder = el.getAttribute('data-placeholder-' + lang);
+      });
+
+      // Update <html lang>
+      document.documentElement.lang = lang;
+
+      // Toggle active button
+      langBtns.forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === lang);
+      });
+    }
+
+    langBtns.forEach(btn => {
+      btn.addEventListener('click', () => applyLanguage(btn.dataset.lang));
+    });
+
+    /* ─── HEADER SCROLL ─── */
+    const header = document.getElementById('mainHeader');
+    window.addEventListener('scroll', () => {
+      header.classList.toggle('scrolled', window.scrollY > 60);
+    });
+
+    /* ─── SCROLL REVEAL ─── */
+    const revealEls = document.querySelectorAll('.reveal, .reveal-left');
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    revealEls.forEach(el => io.observe(el));
+
+    /* ─── COUNTER ANIMATION ─── */
+    const counters = document.querySelectorAll('.stat-number[data-count]');
+    const counterIO = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el = entry.target;
+        const target = +el.dataset.count;
+        const suffix = el.closest('.stat-item').querySelector('.stat-label').textContent.includes('%') ? '+' : '+';
+        let current = 0;
+        const step = target / 60;
+        const interval = setInterval(() => {
+          current = Math.min(current + step, target);
+          el.textContent = Math.round(current) + (target >= 98 ? '%' : '+');
+          if (current >= target) clearInterval(interval);
+        }, 18);
+        counterIO.unobserve(el);
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(el => counterIO.observe(el));
+
+    /* ─── SERVICE CARD 3D TILT ─── */
+    document.querySelectorAll('.service-card').forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width  - 0.5;
+        const y = (e.clientY - r.top)  / r.height - 0.5;
+        card.style.transform = `translateY(-10px) rotateX(${-y * 8}deg) rotateY(${x * 8}deg)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transform = '';
+      });
+    });
+
+    /* ─── HERO PARTICLES ─── */
+    const canvas = document.getElementById('particles');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
+
+    function resize() {
+      W = canvas.width  = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+    }
+
+    function Particle() {
+      this.x = Math.random() * W;
+      this.y = Math.random() * H;
+      this.r = Math.random() * 2 + 0.5;
+      this.vx = (Math.random() - 0.5) * 0.4;
+      this.vy = (Math.random() - 0.5) * 0.4;
+      this.alpha = Math.random() * 0.5 + 0.1;
+    }
+
+    Particle.prototype.update = function() {
+      this.x += this.vx;
+      this.y += this.vy;
+      if (this.x < 0) this.x = W;
+      if (this.x > W) this.x = 0;
+      if (this.y < 0) this.y = H;
+      if (this.y > H) this.y = 0;
+    };
+
+    function initParticles() {
+      particles = Array.from({ length: 70 }, () => new Particle());
+    }
+
+    function drawParticles() {
+      ctx.clearRect(0, 0, W, H);
+      particles.forEach(p => {
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(159, 248, 242, ${p.alpha})`;
+        ctx.fill();
+        p.update();
+      });
+
+      /* draw connecting lines */
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx*dx + dy*dy);
+          if (dist < 110) {
+            ctx.beginPath();
+            ctx.strokeStyle = `rgba(159, 248, 242, ${0.12 * (1 - dist/110)})`;
+            ctx.lineWidth = 0.5;
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(drawParticles);
+    }
+
+    window.addEventListener('resize', () => { resize(); initParticles(); });
+    resize();
+    initParticles();
+    drawParticles();
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+  <script>
+    emailjs.init("ltejkbAe1XYOnMDuY");
+
+    const form = document.getElementById("contactForm");
+
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const captchaResponse = grecaptcha.getResponse();
+
+      if (!captchaResponse) {
+        alert("Please verify that you are not a robot first.");
+        return;
+      }
+
+      emailjs.sendForm(
+        "service_o6on0fm",
+        "template_vankeff",
+        form
+      )
+      .then(() => {
+        alert("Message sent successfully!");
+        form.reset();
+        grecaptcha.reset();
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("Failed to send message. Please try again.");
+      });
+    });
+  </script>
+
+
+
+
+
+
+
+
+
+
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+
+
+
+
+</body>
+</html>
